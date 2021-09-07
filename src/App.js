@@ -19,7 +19,7 @@ function App() {
           <ContenedorBotones>
             <Boton to="/categorias">Categorias</Boton>
             <Boton to="/lista">Lista de Gastos</Boton>
-            <Boton>X</Boton>
+            <Boton to="/#">X</Boton>
           </ContenedorBotones>
         </ContenedorHeader>
       </Header>
