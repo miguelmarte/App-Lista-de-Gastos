@@ -11,6 +11,7 @@ import { ReactComponent as SvgLogin } from "./../imagenes/registro.svg";
 import styled from "styled-components";
 import { auth } from "./../firebase/firebaseConfig";
 import { useHistory } from "react-router-dom";
+import Alerta from "../elementos/Alerta";
 const Svg = styled(SvgLogin)`
   width: 100%;
   max-height: 6.25rem;
@@ -21,6 +22,8 @@ const RegistroUsuario = () => {
   const [correo, establecerCorreo] = useState("");
   const [password, establecerPassword] = useState("");
   const [password2, establecerPassword2] = useState("");
+  const [estadoAlerta, cambiarEstadoAlerta] = useState(false);
+  const [alerta, cambiarAlerta] = useState({});
   const handleChange = (e) => {
     switch (e.target.name) {
       case "email":
@@ -38,24 +41,44 @@ const RegistroUsuario = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    cambiarEstadoAlerta(false);
+    cambiarAlerta({});
     const expresionRegular = /[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+/;
     if (!expresionRegular.test(correo)) {
-      console.log("por favor ingresa un correo valido");
+      cambiarEstadoAlerta(true);
+      cambiarAlerta({
+        tipo: "error",
+        mensaje: "Por favor ingresa un correo valido",
+      });
       return;
     }
     if (correo === "" || password === "" || password2 === "") {
-      console.log("por favor rellena todos los campos");
+      cambiarEstadoAlerta(true);
+      cambiarAlerta({
+        tipo: "error",
+        mensaje: "Por favor rellena todos los campos",
+      });
       return;
     }
     if (password !== password2) {
-      console.log("las contraseñas no son iguales");
+      cambiarEstadoAlerta(true);
+      cambiarAlerta({
+        tipo: "error",
+        mensaje: "Las contraseñas no son iguales",
+      });
       return;
     }
 
     try {
       await auth.createUserWithEmailAndPassword(correo, password);
-      history.push("/");
+      cambiarEstadoAlerta(true);
+      cambiarAlerta({
+        tipo: "exito",
+        mensaje: "Registrado con exito",
+      });
+      setTimeout(() => history.push("/"), 1000);
     } catch (error) {
+      cambiarEstadoAlerta(true);
       let mensaje;
       switch (error.code) {
         case "auth/invalid-password":
@@ -72,7 +95,11 @@ const RegistroUsuario = () => {
           mensaje = "Hubo un error al intentar crear la cuenta.";
           break;
       }
-      console.log(mensaje);
+
+      cambiarAlerta({
+        tipo: "error",
+        mensaje: mensaje,
+      });
     }
   };
   return (
@@ -117,6 +144,12 @@ const RegistroUsuario = () => {
           </Boton>
         </ContenedorBoton>
       </Formulario>
+      <Alerta
+        tipo={alerta.tipo}
+        mensaje={alerta.mensaje}
+        estadoAlerta={estadoAlerta}
+        cambiarEstadoAlerta={cambiarEstadoAlerta}
+      />
     </>
   );
 };
