@@ -49,7 +49,7 @@ const Input = styled.input`
 
   @media (max-width: 60rem) {
     /* 950px */
-    font-size: 2.2rem; /* 24px */
+    font-size: 1.2rem; /* 24px */
   }
 `;
 
