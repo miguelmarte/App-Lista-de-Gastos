@@ -20,9 +20,15 @@ import {
   ContenedorSubtitulo,
   Subtitulo,
 } from "../elementos/ElementosDeLista";
+import IconoCategoria from "./../elementos/IconoCategoria";
+import convertirAMoneda from "./../funciones/ConvertirAMoneda";
+import { ReactComponent as IconoEditar } from "./../imagenes/editar.svg";
+import { ReactComponent as IconoBorrar } from "./../imagenes/borrar.svg";
+import { Link } from "react-router-dom";
+import Boton from "./../elementos/Boton";
 const ListaDeGastos = () => {
   const [gastos] = UseObtenerGastos();
-  //console.log(gastos);
+
   return (
     <>
       <Helmet>
@@ -35,9 +41,35 @@ const ListaDeGastos = () => {
       <Lista>
         {gastos.map((gasto) => {
           return (
-            <ElementoLista key={gasto.id}>{gasto.descripcion}</ElementoLista>
+            <ElementoLista key={gasto.id}>
+              <Categoria>
+                <IconoCategoria id={gasto.categoria} />
+                {gasto.categoria}
+              </Categoria>
+              <Descripcion>{gasto.descripcion}</Descripcion>
+              <Valor>{convertirAMoneda(gasto.cantidad)}</Valor>
+              <ContenedorBotones>
+                <BotonAccion as={Link} to={`/editar/${gasto.id}`}>
+                  <IconoEditar />
+                </BotonAccion>
+                <BotonAccion>
+                  <IconoBorrar />
+                </BotonAccion>
+              </ContenedorBotones>
+            </ElementoLista>
           );
         })}
+        <ContenedorBotonCentral>
+          <BotonCargarMas>Cargar Más</BotonCargarMas>
+        </ContenedorBotonCentral>
+        {gastos.length === 0 && (
+          <ContenedorSubtitulo>
+            <Subtitulo>No hay gastos por mostrar</Subtitulo>
+            <Boton a={Link} to="/">
+              Agregar Gasto
+            </Boton>
+          </ContenedorSubtitulo>
+        )}
       </Lista>
       <BarraTotalGastado />
     </>
