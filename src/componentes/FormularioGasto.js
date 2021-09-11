@@ -33,7 +33,7 @@ const FormularioGasto = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     let cantidad = parseFloat(inputCantidad).toFixed(2);
-    if (inputDescripcion !== "" && cantidad !== "") {
+    if (inputDescripcion !== "" && cantidad !== "" && cantidad !== "NaN") {
       if (cantidad) {
         agregarGasto({
           categoria: categoria,

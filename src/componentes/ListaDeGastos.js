@@ -7,8 +7,6 @@ import UseObtenerGastos from "../hooks/useObtenerGastos";
 import {
   Lista,
   ElementoLista,
-  ListaDeCategorias,
-  ElementoListaCategorias,
   Categoria,
   Descripcion,
   Valor,
@@ -29,7 +27,7 @@ import Boton from "./../elementos/Boton";
 import { format, fromUnixTime } from "date-fns";
 import { es } from "date-fns/locale";
 const ListaDeGastos = () => {
-  const [gastos] = UseObtenerGastos();
+  const [gastos, obtenerMasGastos, hayMasPorCargar] = UseObtenerGastos();
   const formatearFecha = (fecha) => {
     return format(fromUnixTime(fecha), "dd 'de' MMMM 'de' yyyy", {
       locale: es,
@@ -83,9 +81,14 @@ const ListaDeGastos = () => {
             </div>
           );
         })}
-        <ContenedorBotonCentral>
-          <BotonCargarMas>Cargar Más</BotonCargarMas>
-        </ContenedorBotonCentral>
+        {hayMasPorCargar && (
+          <ContenedorBotonCentral>
+            <BotonCargarMas onClick={() => obtenerMasGastos()}>
+              Cargar Más
+            </BotonCargarMas>
+          </ContenedorBotonCentral>
+        )}
+
         {gastos.length === 0 && (
           <ContenedorSubtitulo>
             <Subtitulo>No hay gastos por mostrar</Subtitulo>
