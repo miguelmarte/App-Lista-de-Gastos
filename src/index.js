@@ -13,6 +13,8 @@ import RegistroUsuario from "./componentes/RegistroUsuario";
 import { Helmet } from "react-helmet";
 import favicon from "./imagenes/logo.png";
 import Fondo from "./elementos/Fondo";
+import { AuthProvider } from "./contextos/AuthContext";
+import RutaPrivada from "./componentes/RutaPrivada";
 WebFont.load({
   google: {
     families: ["Work Sans:400,500,700", "sans-serif"],
@@ -24,19 +26,28 @@ const Index = () => {
       <Helmet>
         <link rel="shortcut icon" href={favicon} type="image/x-icon" />
       </Helmet>
-
-      <BrowserRouter>
-        <Contenedor>
-          <Switch>
-            <Route path="/iniciar-sesion" component={InicioSesion} />
-            <Route path="/crear-cuenta" component={RegistroUsuario} />
-            <Route path="/categorias" component={GastosPorCategoria} />
-            <Route path="/lista" component={ListaDeGastos} />
-            <Route path="/editar/:id" component={EditarGasto} />
-            <Route path="/" component={App} />
-          </Switch>
-        </Contenedor>
-      </BrowserRouter>
+      <AuthProvider>
+        <BrowserRouter>
+          <Contenedor>
+            <Switch>
+              <Route path="/iniciar-sesion" component={InicioSesion} />
+              <Route path="/crear-cuenta" component={RegistroUsuario} />
+              <RutaPrivada path="/categorias">
+                <GastosPorCategoria />
+              </RutaPrivada>
+              <RutaPrivada path="/lista">
+                <ListaDeGastos />
+              </RutaPrivada>
+              <RutaPrivada path="/editar/:id">
+                <EditarGasto />
+              </RutaPrivada>
+              <RutaPrivada path="/">
+                <App />
+              </RutaPrivada>
+            </Switch>
+          </Contenedor>
+        </BrowserRouter>
+      </AuthProvider>
       <Fondo />
     </>
   );

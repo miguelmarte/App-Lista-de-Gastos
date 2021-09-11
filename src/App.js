@@ -7,6 +7,8 @@ import {
   ContenedorBotones,
 } from "./elementos/Header";
 import Boton from "./elementos/Boton";
+import BotonCerrarSesion from "./elementos/BotonCerrarSesion";
+import FormularioGasto from "./componentes/FormularioGasto";
 function App() {
   return (
     <>
@@ -19,10 +21,11 @@ function App() {
           <ContenedorBotones>
             <Boton to="/categorias">Categorias</Boton>
             <Boton to="/lista">Lista de Gastos</Boton>
-            <Boton to="/#">X</Boton>
+            <BotonCerrarSesion />
           </ContenedorBotones>
         </ContenedorHeader>
       </Header>
+      <FormularioGasto />
     </>
   );
 }
