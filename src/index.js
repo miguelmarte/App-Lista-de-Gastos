@@ -15,6 +15,7 @@ import favicon from "./imagenes/logo.png";
 import Fondo from "./elementos/Fondo";
 import { AuthProvider } from "./contextos/AuthContext";
 import RutaPrivada from "./componentes/RutaPrivada";
+import { TotalGastadoProvider } from "./contextos/TotalGastadoEnelMesContext";
 WebFont.load({
   google: {
     families: ["Work Sans:400,500,700", "sans-serif"],
@@ -27,26 +28,28 @@ const Index = () => {
         <link rel="shortcut icon" href={favicon} type="image/x-icon" />
       </Helmet>
       <AuthProvider>
-        <BrowserRouter>
-          <Contenedor>
-            <Switch>
-              <Route path="/iniciar-sesion" component={InicioSesion} />
-              <Route path="/crear-cuenta" component={RegistroUsuario} />
-              <RutaPrivada path="/categorias">
-                <GastosPorCategoria />
-              </RutaPrivada>
-              <RutaPrivada path="/lista">
-                <ListaDeGastos />
-              </RutaPrivada>
-              <RutaPrivada path="/editar/:id">
-                <EditarGasto />
-              </RutaPrivada>
-              <RutaPrivada path="/">
-                <App />
-              </RutaPrivada>
-            </Switch>
-          </Contenedor>
-        </BrowserRouter>
+        <TotalGastadoProvider>
+          <BrowserRouter>
+            <Contenedor>
+              <Switch>
+                <Route path="/iniciar-sesion" component={InicioSesion} />
+                <Route path="/crear-cuenta" component={RegistroUsuario} />
+                <RutaPrivada path="/categorias">
+                  <GastosPorCategoria />
+                </RutaPrivada>
+                <RutaPrivada path="/lista">
+                  <ListaDeGastos />
+                </RutaPrivada>
+                <RutaPrivada path="/editar/:id">
+                  <EditarGasto />
+                </RutaPrivada>
+                <RutaPrivada path="/">
+                  <App />
+                </RutaPrivada>
+              </Switch>
+            </Contenedor>
+          </BrowserRouter>
+        </TotalGastadoProvider>
       </AuthProvider>
       <Fondo />
     </>
