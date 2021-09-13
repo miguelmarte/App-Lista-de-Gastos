@@ -91,6 +91,9 @@ const RegistroUsuario = () => {
         case "auth/invalid-email":
           mensaje = "El correo electrónico no es válido.";
           break;
+        case "auth/weak-password":
+          mensaje = "La contraseña debe de tener minimo 6 caractares.";
+          break;
         default:
           mensaje = "Hubo un error al intentar crear la cuenta.";
           break;
